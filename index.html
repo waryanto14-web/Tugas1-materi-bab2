@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Full Materi Tugas 1 - Berpikir Komputasional | UPTD SMPN 2 Tangsel</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --primary: #1976D2;
+    --primary-dark: #0D47A1;
+    --accent: #42A5F5;
+    --success: #2E7D32;
+    --danger: #C62828;
+    --warning: #F9A825;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1976D2 0%, #1565C0 50%, #0D47A1 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body::before, body::after {
+    content:''; position:fixed; border-radius:50%;
+    background: rgba(255,255,255,0.08); filter: blur(40px);
+    z-index:0; pointer-events:none;
+  }
+  body::before { width:400px; height:400px; top:-100px; left:-100px; animation: float 12s ease-in-out infinite; }
+  body::after { width:500px; height:500px; bottom:-150px; right:-100px; animation: float 15s ease-in-out infinite reverse; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(30px)} }
+  .circle-deco {
+    position:fixed; border-radius:50%; background:rgba(255,255,255,0.06);
+    filter:blur(30px); z-index:0; pointer-events:none;
+  }
+  .c1 { width:250px;height:250px;top:20%;left:10%; }
+  .c2 { width:180px;height:180px;top:60%;right:15%; }
+  .c3 { width:300px;height:300px;bottom:10%;left:40%; }
+
+  /* HEADER */
+  .header {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; padding:10px 15px;
+    background:rgba(13,71,161,0.95); backdrop-filter:blur(8px);
+    box-shadow:0 2px 12px rgba(0,0,0,0.25);
+  }
+  .header-logo {
+    width:48px; height:48px; object-fit:contain;
+    animation: growTurn 2.5s ease-in-out infinite;
+  }
+  @keyframes growTurn {
+    0%,100%{transform:scale(1) rotate(0deg)}
+    50%{transform:scale(1.12) rotate(8deg)}
+  }
+  .header-text {
+    margin-left:12px; color:#fff; font-size:12px; font-weight:600;
+    line-height:1.25; text-transform:uppercase; letter-spacing:0.5px;
+  }
+  .header-right {
+    margin-left:auto; display:flex; align-items:center; gap:12px; color:#fff; font-size:13px;
+  }
+  .timer-box {
+    background:rgba(255,255,255,0.15); padding:6px 14px; border-radius:20px;
+    font-weight:700; font-size:15px; letter-spacing:1px;
+  }
+  .timer-box.warning { background:#F9A825; color:#000; animation:pulse 1s infinite; }
+  .timer-box.danger { background:#C62828; animation:pulse 0.6s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+  .violation-badge {
+    background:#C62828; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:600;
+  }
+  .btn-exit {
+    background:#C62828; color:#fff; border:none; padding:6px 14px; border-radius:8px;
+    font-weight:600; cursor:pointer; font-size:13px; transition:0.2s;
+  }
+  .btn-exit:hover { background:#B71C1C; transform:scale(1.05); }
+
+  /* LOGIN */
+  #login-screen {
+    position:relative; z-index:10;
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:80px 20px 60px;
+  }
+  .login-card {
+    background:#fff; border-radius:20px; padding:32px 28px; width:100%; max-width:420px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.3); position:relative; overflow:hidden;
+  }
+  .login-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:6px;
+    background:linear-gradient(90deg,#1976D2,#42A5F5,#1976D2);
+  }
+  .school-logo {
+    width:90px; height:90px; border-radius:50%; object-fit:cover;
+    display:block; margin:0 auto 8px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.25);
+    animation: growTurn 3s ease-in-out infinite;
+  }
+  .school-name { text-align:center; font-size:13px; font-weight:600; color:#333; margin-bottom:18px; }
+  .login-title { text-align:center; font-size:20px; font-weight:700; color:#0D47A1; margin-bottom:4px; }
+  .login-subtitle { text-align:center; font-size:13px; color:#555; margin-bottom:20px; line-height:1.4; }
+  .instruksi { text-align:center; color:#1976D2; font-size:13px; font-weight:600; margin-bottom:16px; }
+  .form-group { margin-bottom:16px; }
+  .form-group label { display:block; font-size:12px; color:#555; font-weight:500; margin-bottom:5px; }
+  .form-group input, .form-group select {
+    width:100%; padding:11px 14px; border:2px solid #E0E0E0; border-radius:10px;
+    font-size:14px; font-family:inherit; transition:0.2s; outline:none;
+  }
+  .form-group input:focus, .form-group select:focus { border-color:#1976D2; box-shadow:0 0 0 3px rgba(25,118,210,0.15); }
+  .btn-login {
+    width:100%; padding:13px; background:linear-gradient(135deg,#1976D2,#0D47A1);
+    color:#fff; border:none; border-radius:12px; font-size:15px; font-weight:700;
+    cursor:pointer; transition:0.25s; margin-top:8px;
+  }
+  .btn-login:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(25,118,210,0.4); }
+  .footer-card { text-align:center; margin-top:18px; font-size:11px; color:#888; }
+
+  /* ========== BUKU MATERI READER ========== */
+  #buku-screen {
+    display:none; position:relative; z-index:10;
+    padding:70px 12px 100px; min-height:100vh;
+  }
+  .buku-container {
+    max-width:900px; margin:0 auto;
+  }
+  .buku-header-card {
+    background:#fff; border-radius:16px; padding:18px 20px; margin-bottom:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.15);
+  }
+  .buku-header-card h2 {
+    color:#0D47A1; font-size:18px; margin-bottom:4px;
+  }
+  .buku-header-card p {
+    color:#555; font-size:13px; line-height:1.45;
+  }
+  .buku-progress-wrap {
+    margin-top:12px;
+  }
+  .buku-progress-label {
+    display:flex; justify-content:space-between; font-size:12px; color:#555; margin-bottom:6px; font-weight:500;
+  }
+  .buku-progress-bar {
+    height:10px; background:#E0E0E0; border-radius:6px; overflow:hidden;
+  }
+  .buku-progress-fill {
+    height:100%; background:linear-gradient(90deg,#1976D2,#42A5F5); border-radius:6px;
+    transition:width 0.3s ease; width:0%;
+  }
+  .buku-viewer {
+    background:#fff; border-radius:16px; padding:12px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.15);
+    text-align:center; min-height:420px;
+    position:relative;
+  }
+  .buku-page-img {
+    max-width:100%; height:auto; border-radius:8px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.12);
+    background:#FAFAFA; min-height:300px; display:block; margin:0 auto;
+  }
+  .buku-viewer .loading-msg {
+    padding:40px; color:#666; font-size:14px;
+  }
+  .buku-nav {
+    display:flex; justify-content:center; align-items:center; gap:12px;
+    margin-top:14px; flex-wrap:wrap;
+  }
+  .btn-buku {
+    padding:10px 18px; border:none; border-radius:10px; font-weight:600;
+    font-size:14px; cursor:pointer; transition:0.2s; font-family:inherit;
+  }
+  .btn-buku-prev { background:#E0E0E0; color:#333; }
+  .btn-buku-next { background:#1976D2; color:#fff; }
+  .btn-buku:hover { transform:translateY(-1px); opacity:0.92; }
+  .btn-buku:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+  .page-indicator {
+    background:#E3F2FD; color:#0D47A1; padding:8px 16px; border-radius:20px;
+    font-size:13px; font-weight:600; min-width:100px; text-align:center;
+  }
+  .buku-actions {
+    background:#fff; border-radius:16px; padding:18px 20px; margin-top:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.15);
+  }
+  .buku-check-row {
+    display:flex; align-items:flex-start; gap:10px; margin-bottom:14px;
+  }
+  .buku-check-row input[type="checkbox"] {
+    width:20px; height:20px; margin-top:2px; accent-color:#1976D2; flex-shrink:0; cursor:pointer;
+  }
+  .buku-check-row label {
+    font-size:13px; color:#333; line-height:1.45; cursor:pointer;
+  }
+  .btn-lanjut-soal {
+    width:100%; padding:14px; background:linear-gradient(135deg,#2E7D32,#1B5E20);
+    color:#fff; border:none; border-radius:12px; font-size:15px; font-weight:700;
+    cursor:pointer; transition:0.25s; font-family:inherit;
+  }
+  .btn-lanjut-soal:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 20px rgba(46,125,50,0.4); }
+  .btn-lanjut-soal:disabled {
+    background:#BDBDBD; cursor:not-allowed; transform:none; box-shadow:none;
+  }
+  .btn-download-pdf {
+    display:inline-block; margin-top:10px; padding:8px 16px;
+    background:#E3F2FD; color:#0D47A1; border:2px solid #1976D2;
+    border-radius:10px; font-size:13px; font-weight:600; text-decoration:none;
+    transition:0.2s;
+  }
+  .btn-download-pdf:hover { background:#1976D2; color:#fff; }
+  .buku-hint {
+    font-size:12px; color:#C62828; margin-top:8px; text-align:center; display:none;
+  }
+  .buku-hint.show { display:block; }
+  .buku-thumb-strip {
+    display:flex; gap:6px; overflow-x:auto; padding:10px 0 4px; margin-top:8px;
+    scrollbar-width:thin;
+  }
+  .buku-thumb {
+    width:48px; height:64px; object-fit:cover; border-radius:4px;
+    border:2px solid transparent; cursor:pointer; flex-shrink:0; opacity:0.7;
+    transition:0.15s;
+  }
+  .buku-thumb:hover { opacity:1; }
+  .buku-thumb.active { border-color:#1976D2; opacity:1; box-shadow:0 0 0 2px rgba(25,118,210,0.3); }
+  .buku-thumb.read { opacity:1; }
+  .buku-thumb.read::after { content:''; }
+
+  /* START MODAL */
+  #start-modal {
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200;
+    align-items:center; justify-content:center; padding:20px;
+  }
+  #start-modal.show { display:flex; }
+  .start-box {
+    background:#fff; border-radius:18px; padding:28px; max-width:420px; text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,0.4);
+  }
+  .start-box h3 { color:#0D47A1; margin-bottom:12px; font-size:18px; }
+  .start-box p { font-size:14px; color:#444; line-height:1.5; margin-bottom:20px; }
+  .btn-mulai {
+    background:linear-gradient(135deg,#2E7D32,#1B5E20); color:#fff; border:none;
+    padding:12px 28px; border-radius:12px; font-size:15px; font-weight:700; cursor:pointer;
+  }
+
+  /* QUIZ SCREEN */
+  #quiz-screen { display:none; position:relative; z-index:10; padding:70px 12px 80px; min-height:100vh; }
+  .quiz-container {
+    max-width:1100px; margin:0 auto; display:grid;
+    grid-template-columns:1fr 220px; gap:16px;
+  }
+  @media(max-width:900px){ .quiz-container{grid-template-columns:1fr;} .nav-panel{order:-1;} }
+
+  .question-card {
+    background:#fff; border-radius:16px; padding:22px 20px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.18); min-height:420px;
+  }
+  .q-header {
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;
+    flex-wrap:wrap; gap:8px;
+  }
+  .q-number {
+    background:#1976D2; color:#fff; padding:5px 14px; border-radius:20px; font-size:13px; font-weight:600;
+  }
+  .q-type {
+    background:#E3F2FD; color:#0D47A1; padding:4px 12px; border-radius:12px; font-size:12px; font-weight:500;
+  }
+  .q-text { font-size:15px; color:#222; line-height:1.55; margin-bottom:16px; }
+  .q-text img, .q-text svg { max-width:100%; height:auto; margin:10px 0; border-radius:8px; }
+  .q-table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+  .q-table th, .q-table td { border:1px solid #BDBDBD; padding:8px 10px; text-align:left; }
+  .q-table th { background:#E3F2FD; color:#0D47A1; }
+  .options { display:flex; flex-direction:column; gap:10px; }
+  .opt-label {
+    display:flex; align-items:flex-start; gap:10px; padding:12px 14px;
+    border:2px solid #E0E0E0; border-radius:12px; cursor:pointer; transition:0.2s;
+    font-size:14px; line-height:1.4;
+  }
+  .opt-label:hover { border-color:#90CAF9; background:#F5FAFF; }
+  .opt-label.selected { border-color:#1976D2; background:#E3F2FD; }
+  .opt-label input { margin-top:3px; accent-color:#1976D2; flex-shrink:0; }
+
+  .drag-area { margin-top:12px; }
+  .blanks-sentence { font-size:15px; line-height:2.2; color:#222; }
+  .blank-slot {
+    display:inline-block; min-width:90px; padding:4px 10px; margin:0 4px;
+    border:2px dashed #1976D2; border-radius:8px; background:#E3F2FD;
+    text-align:center; vertical-align:middle; min-height:32px; font-weight:600; color:#0D47A1;
+  }
+  .blank-slot.filled { border-style:solid; background:#BBDEFB; }
+  .word-bank {
+    display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; padding:12px;
+    background:#F5F5F5; border-radius:12px; min-height:50px;
+  }
+  .drag-word {
+    background:#1976D2; color:#fff; padding:7px 14px; border-radius:20px;
+    font-size:13px; font-weight:500; cursor:grab; user-select:none;
+    transition:0.2s; box-shadow:0 2px 6px rgba(0,0,0,0.15);
+  }
+  .drag-word:active { cursor:grabbing; transform:scale(1.05); }
+  .drag-word.used { opacity:0.35; pointer-events:none; }
+
+  .nav-btns { display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; }
+  .btn-nav {
+    padding:10px 20px; border:none; border-radius:10px; font-weight:600; font-size:14px; cursor:pointer; transition:0.2s;
+  }
+  .btn-prev { background:#E0E0E0; color:#333; }
+  .btn-next { background:#1976D2; color:#fff; }
+  .btn-submit { background:#2E7D32; color:#fff; }
+  .btn-nav:hover { transform:translateY(-1px); opacity:0.9; }
+
+  .nav-panel {
+    background:#fff; border-radius:16px; padding:16px; box-shadow:0 8px 30px rgba(0,0,0,0.15);
+    height:fit-content; position:sticky; top:80px;
+  }
+  .nav-title { font-size:13px; font-weight:700; color:#0D47A1; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
+  .nav-toggle { background:none; border:none; color:#1976D2; cursor:pointer; font-size:18px; }
+  .nav-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
+  .nav-grid.hidden { display:none; }
+  .nav-btn {
+    width:100%; aspect-ratio:1; border:none; border-radius:8px; font-size:12px; font-weight:600;
+    cursor:pointer; transition:0.15s; background:#ECEFF1; color:#546E7A;
+  }
+  .nav-btn.answered { background:#81C784; color:#fff; }
+  .nav-btn.current { background:#1976D2; color:#fff; box-shadow:0 0 0 3px rgba(25,118,210,0.35); }
+  .nav-btn:hover { transform:scale(1.08); }
+  .legend { margin-top:12px; font-size:11px; color:#666; }
+  .legend span { display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:4px; vertical-align:middle; }
+
+  /* RESULT */
+  #result-screen { display:none; position:relative; z-index:10; padding:80px 16px 80px; min-height:100vh; }
+  .result-card {
+    background:#fff; border-radius:20px; padding:32px 24px; max-width:700px; margin:0 auto;
+    box-shadow:0 20px 50px rgba(0,0,0,0.25); text-align:center;
+  }
+  .score-circle {
+    width:140px; height:140px; border-radius:50%; margin:0 auto 18px;
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    background:conic-gradient(#2E7D32 var(--pct), #E0E0E0 0); position:relative;
+  }
+  .score-circle::before {
+    content:''; position:absolute; inset:10px; background:#fff; border-radius:50%;
+  }
+  .score-val { position:relative; z-index:1; font-size:36px; font-weight:700; color:#0D47A1; }
+  .score-label { position:relative; z-index:1; font-size:12px; color:#666; }
+  .result-msg { font-size:16px; color:#333; margin:12px 0; line-height:1.5; }
+  .btn-refresh {
+    background:#1976D2; color:#fff; border:none; padding:12px 28px; border-radius:12px;
+    font-size:15px; font-weight:700; cursor:pointer; margin:10px 6px;
+  }
+  .pembahasan { text-align:left; margin-top:28px; border-top:2px solid #E0E0E0; padding-top:20px; }
+  .pembahasan h3 { color:#0D47A1; margin-bottom:14px; font-size:17px; }
+  .pb-item { background:#F8F9FA; border-radius:12px; padding:14px; margin-bottom:12px; font-size:13px; line-height:1.5; }
+  .pb-item strong { color:#0D47A1; }
+  .benar { color:#2E7D32; font-weight:600; }
+  .salah { color:#C62828; font-weight:600; }
+
+  /* RUNNING TEXT */
+  .marquee-wrap {
+    position:fixed; bottom:0; left:0; right:0; background:rgba(13,71,161,0.95);
+    color:#fff; padding:8px 0; z-index:90; overflow:hidden; white-space:nowrap;
+  }
+  .marquee-text {
+    display:inline-block; padding-left:100%;
+    animation: marquee 28s linear infinite;
+    font-size:13px; font-weight:500; letter-spacing:0.3px;
+  }
+  @keyframes marquee {
+    0%{transform:translateX(0)} 100%{transform:translateX(-100%)}
+  }
+
+  /* MODALS */
+  .modal-overlay {
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:300;
+    align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-overlay.show { display:flex; }
+  .modal-box {
+    background:#fff; border-radius:16px; padding:24px; max-width:380px; text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,0.4); animation:popIn 0.3s ease;
+  }
+  @keyframes popIn { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
+  .modal-box h3 { color:#C62828; margin-bottom:10px; }
+  .modal-box p { font-size:14px; color:#333; line-height:1.5; margin-bottom:18px; }
+  .modal-btns { display:flex; gap:10px; justify-content:center; }
+  .modal-btns button {
+    padding:10px 22px; border:none; border-radius:10px; font-weight:600; cursor:pointer; font-size:14px;
+  }
+  .btn-ya { background:#C62828; color:#fff; }
+  .btn-tidak { background:#E0E0E0; color:#333; }
+
+  .flowchart-svg { background:#FAFAFA; border:1px solid #E0E0E0; border-radius:10px; padding:8px; }
+</style>
+</head>
+<body>
+  <div class="circle-deco c1"></div>
+  <div class="circle-deco c2"></div>
+  <div class="circle-deco c3"></div>
+
+  <!-- HEADER -->
+  <div class="header" id="main-header" style="display:none;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg" alt="Logo Kemdikdasmen" class="header-logo">
+    <div class="header-text">KEMENTERIAN<br>PENDIDIKAN DASAR<br>DAN MENENGAH</div>
+    <div class="header-right">
+      <span class="violation-badge" id="violation-count" style="display:none;">Pelanggaran: 0</span>
+      <div class="timer-box" id="timer" style="display:none;">40:00</div>
+      <button class="btn-exit" onclick="confirmExit()">Keluar</button>
+    </div>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="login-screen">
+    <div class="login-card">
+      <img src="https://gms.playpro.id/storage/gms/contingent/1749549362.jpeg" alt="Logo Sekolah" class="school-logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%231976D2%22/%3E%3Ctext x=%2250%22 y=%2258%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2224%22 font-family=%22Arial%22%3ESMP%3C/text%3E%3C/svg%3E'">
+      <div class="school-name">UPTD SMPN 2 Tangsel</div>
+      <div class="login-title">Full Materi Tugas 1</div>
+      <div class="login-subtitle">Berpikir Komputasional dalam Algoritma dan Pemrograman</div>
+      <div class="instruksi">Silahkan login untuk memulai</div>
+      <div class="form-group">
+        <label for="nama">Nama Lengkap</label>
+        <input type="text" id="nama" placeholder="Masukkan nama Anda Huruf Capital" autocomplete="off" style="text-transform:uppercase;">
+      </div>
+      <div class="form-group">
+        <label for="kelas">Kelas</label>
+        <select id="kelas">
+          <option value="">-- Pilih Kelas --</option>
+          <option value="9.1">9.1</option>
+          <option value="9.2">9.2</option>
+          <option value="9.3">9.3</option>
+          <option value="9.4">9.4</option>
+          <option value="9.5">9.5</option>
+          <option value="9.6">9.6</option>
+          <option value="9.7">9.7</option>
+          <option value="9.8">9.8</option>
+          <option value="9.9">9.9</option>
+          <option value="9.10">9.10</option>
+        </select>
+      </div>
+      <button class="btn-login" onclick="doLogin()">Masuk &amp; Baca Materi</button>
+      <div class="footer-card">Pembuat Soal : Waryanto, ST</div>
+    </div>
+  </div>
+
+  <!-- ========== BUKU MATERI SCREEN ========== -->
+  <div id="buku-screen">
+    <div class="buku-container">
+      <div class="buku-header-card">
+        <h2>📖 Buku Materi: Berpikir Komputasional</h2>
+        <p>Sebelum mengerjakan soal, <strong>wajib membaca</strong> buku materi di bawah ini.
+          Gulir / buka semua halaman hingga selesai, lalu centang pernyataan dan klik tombol lanjut.</p>
+        <div class="buku-progress-wrap">
+          <div class="buku-progress-label">
+            <span>Progres Bacaan</span>
+            <span id="buku-progress-text">0 / 18 halaman</span>
+          </div>
+          <div class="buku-progress-bar">
+            <div class="buku-progress-fill" id="buku-progress-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="buku-viewer">
+        <img id="buku-page-img" class="buku-page-img" src="" alt="Halaman buku materi">
+        <div class="buku-nav">
+          <button class="btn-buku btn-buku-prev" id="btn-buku-prev" onclick="bukuPrev()" disabled>← Sebelumnya</button>
+          <span class="page-indicator" id="buku-page-num">Halaman 1 / 18</span>
+          <button class="btn-buku btn-buku-next" id="btn-buku-next" onclick="bukuNext()">Berikutnya →</button>
+        </div>
+        <div class="buku-thumb-strip" id="buku-thumbs"></div>
+      </div>
+
+      <div class="buku-actions">
+        <div class="buku-check-row">
+          <input type="checkbox" id="buku-sudah-baca" disabled onchange="updateLanjutBtn()">
+          <label for="buku-sudah-baca">
+            Saya, <strong id="buku-nama-label">Siswa</strong>, telah membaca seluruh buku materi
+            <em>Berpikir Komputasional dalam Algoritma dan Pemrograman</em> dan siap mengerjakan soal.
+          </label>
+        </div>
+        <button class="btn-lanjut-soal" id="btn-lanjut-soal" disabled onclick="lanjutKeSoal()">
+          🔒 Selesaikan bacaan semua halaman terlebih dahulu
+        </button>
+        <p class="buku-hint" id="buku-hint">Buka semua 18 halaman buku, lalu centang pernyataan di atas untuk membuka tombol lanjut.</p>
+        <div style="text-align:center;">
+          <a class="btn-download-pdf" href="Buku_Materi_Berpikir_Komputasional_BAB2.pdf" target="_blank" download>
+            📥 Unduh PDF Buku Materi
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- START MODAL -->
+  <div id="start-modal">
+    <div class="start-box">
+      <h3>Siap Mengerjakan?</h3>
+      <p>Anda telah membaca buku materi. Klik tombol di bawah untuk memulai soal.
+        Waktu akan langsung dihitung mundur (40 menit). Jaga kejujuran Anda.</p>
+      <button class="btn-mulai" onclick="startQuiz()">Mulai Mengerjakan Soal</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz-screen">
+    <div class="quiz-container">
+      <div class="question-card" id="question-area"></div>
+      <div class="nav-panel">
+        <div class="nav-title">
+          Navigasi Soal
+          <button class="nav-toggle" onclick="toggleNav()" title="Tampilkan/Sembunyikan">☰</button>
+        </div>
+        <div class="nav-grid hidden" id="nav-grid"></div>
+        <div class="legend" id="nav-legend" style="display:none;">
+          <div><span style="background:#ECEFF1;"></span> Belum dikerjakan</div>
+          <div><span style="background:#81C784;"></span> Sudah dijawab</div>
+          <div><span style="background:#1976D2;"></span> Soal aktif</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result-screen">
+    <div class="result-card" id="result-content"></div>
+  </div>
+
+  <!-- RUNNING TEXT -->
+  <div class="marquee-wrap">
+    <div class="marquee-text">Selamat Belajar Mengerjakan Semoga Sukses dengan Menjaga Tanggung Jawab dan Kejujuran Anda &nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp; Baca Buku Materi Sebelum Mengerjakan Soal &nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;</div>
+  </div>
+
+  <!-- WARNING MODAL -->
+  <div class="modal-overlay" id="warn-modal">
+    <div class="modal-box">
+      <h3>⚠ Peringatan Pelanggaran!</h3>
+      <p>Jangan melakukan kecurangan. Kamu akan terpantau dan score akan berkurang setiap 3 kali pelanggaran.</p>
+      <div class="modal-btns">
+        <button class="btn-ya" onclick="closeWarn()">Saya Mengerti</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXIT CONFIRM -->
+  <div class="modal-overlay" id="exit-modal">
+    <div class="modal-box">
+      <h3>Konfirmasi Keluar</h3>
+      <p>Apakah Anda yakin ingin keluar? Progress pengerjaan akan hilang.</p>
+      <div class="modal-btns">
+        <button class="btn-ya" onclick="exitQuiz()">Ya, Keluar</button>
+        <button class="btn-tidak" onclick="closeExit()">Tidak</button>
+      </div>
+    </div>
+  </div>
+
+<script src="buku_data.js"></script>
+<script>
+/* ========== DATA SOAL ========== */
+const questions = [
+  {
+    type: 'mcq',
+    q: `Perhatikan flowchart di bawah ini untuk menghitung luas lingkaran.<br>
+    <svg class="flowchart-svg" width="280" height="220" viewBox="0 0 280 220">
+      <rect x="90" y="5" width="100" height="30" rx="15" fill="#BBDEFB" stroke="#1565C0" stroke-width="2"/>
+      <text x="140" y="25" text-anchor="middle" font-size="12" font-family="Arial">Mulai</text>
+      <line x1="140" y1="35" x2="140" y2="50" stroke="#333" stroke-width="2"/>
+      <polygon points="140,50 190,75 140,100 90,75" fill="#FFF9C4" stroke="#F9A825" stroke-width="2"/>
+      <text x="140" y="78" text-anchor="middle" font-size="11" font-family="Arial">Input r</text>
+      <line x1="140" y1="100" x2="140" y2="115" stroke="#333" stroke-width="2"/>
+      <rect x="70" y="115" width="140" height="35" rx="4" fill="#C8E6C9" stroke="#2E7D32" stroke-width="2"/>
+      <text x="140" y="137" text-anchor="middle" font-size="11" font-family="Arial">luas = 3.14 × r × r</text>
+      <line x1="140" y1="150" x2="140" y2="165" stroke="#333" stroke-width="2"/>
+      <rect x="70" y="165" width="140" height="30" rx="4" fill="#FFCCBC" stroke="#E64A19" stroke-width="2"/>
+      <text x="140" y="185" text-anchor="middle" font-size="11" font-family="Arial">Output luas</text>
+      <line x1="140" y1="195" x2="140" y2="205" stroke="#333" stroke-width="2"/>
+      <rect x="95" y="205" width="90" height="25" rx="12" fill="#BBDEFB" stroke="#1565C0" stroke-width="2"/>
+      <text x="140" y="222" text-anchor="middle" font-size="11" font-family="Arial">Selesai</text>
+    </svg>
+    <br>Jika siswa ingin memodularisasi proses perhitungan luas agar dapat digunakan ulang di program lain, langkah manakah yang paling tepat?`,
+    options: [
+      'Mengubah seluruh flowchart menjadi satu blok besar tanpa input/output',
+      'Membuat prosedur/fungsi terpisah bernama hitungLuas(r) yang menerima parameter jari-jari dan mengembalikan nilai luas',
+      'Menghapus simbol mulai dan selesai agar flowchart lebih singkat',
+      'Mengganti nilai 3.14 menjadi variabel π tanpa mengubah struktur'
+    ],
+    answer: 1,
+    pembahasan: 'Modularisasi dilakukan dengan membuat prosedur/fungsi terpisah (library) yang menerima parameter dan mengembalikan hasil. Ini memungkinkan kode digunakan ulang (reusable) di program lain.'
+  },
+  {
+    type: 'mcq',
+    q: `Perhatikan cuplikan pseudocode berikut:<br>
+    <pre style="background:#F5F5F5;padding:12px;border-radius:8px;font-size:13px;overflow-x:auto;">
+PROSEDUR hitungRata(nilai1, nilai2, nilai3)
+  total ← nilai1 + nilai2 + nilai3
+  rata ← total / 3
+  KEMBALIKAN rata
+AKHIR PROSEDUR
+
+PROGRAM utama
+  baca a, b, c
+  hasil ← hitungRata(a, b, c)
+  tulis hasil
+AKHIR PROGRAM
+    </pre>
+    Analisis: Manakah pernyataan yang <strong>paling tepat</strong> mengenai keunggulan pendekatan di atas dibanding menulis semua perhitungan di dalam PROGRAM utama?`,
+    options: [
+      'Pseudocode menjadi lebih panjang sehingga lebih sulit dipahami',
+      'Prosedur hitungRata dapat dipanggil berulang kali untuk data berbeda tanpa menulis ulang logika perhitungan (modularisasi & library)',
+      'Nilai a, b, c tidak perlu dideklarasikan karena sudah ada di prosedur',
+      'Operator pembagian (/) hanya boleh digunakan di dalam prosedur'
+    ],
+    answer: 1,
+    pembahasan: 'Keunggulan utama modularisasi adalah reusability. Prosedur/fungsi dapat dipanggil berkali-kali dengan argumen berbeda tanpa menduplikasi kode.'
+  },
+  {
+    type: 'mcq',
+    q: `Seorang siswa membuat program di Scratch untuk menghitung volume balok. Ia membuat blok custom (My Blocks) bernama "hitung volume" dengan parameter p, l, t. Blok tersebut kemudian digunakan di beberapa sprite berbeda.<br>
+    Berdasarkan konsep library dan modularisasi, manakah kesimpulan yang benar?`,
+    options: [
+      'Blok custom hanya bisa digunakan di satu sprite saja',
+      'Blok custom yang dibuat siswa berfungsi sebagai library pribadi yang dapat digunakan ulang di berbagai bagian program',
+      'Scratch tidak mendukung konsep library sama sekali',
+      'Parameter p, l, t harus diganti menjadi variabel global agar bisa dipakai di sprite lain'
+    ],
+    answer: 1,
+    pembahasan: 'My Blocks di Scratch adalah bentuk modularisasi/library. Blok custom dapat dipanggil di berbagai tempat (bahkan lintas sprite jika di-share) sehingga mendukung reusability.'
+  },
+  {
+    type: 'mcq',
+    q: `Perhatikan tabel perbandingan berikut:<br>
+    <table class="q-table">
+      <tr><th>Aspek</th><th>Pemrograman Visual (Scratch/Blockly)</th><th>Pemrograman Tekstual</th></tr>
+      <tr><td>Sintaks</td><td>Blok berbentuk puzzle</td><td>Teks dengan aturan ketat</td></tr>
+      <tr><td>Error</td><td>Sulit salah pasang blok</td><td>Mudah terjadi syntax error</td></tr>
+      <tr><td>Transisi</td><td>Mudah dipetakan ke pseudocode</td><td>Lebih dekat ke bahasa nyata</td></tr>
+    </table>
+    Seorang siswa sudah mahir membuat program di Blockly. Langkah terbaik untuk beralih ke bahasa tekstual (misalnya Python) adalah...`,
+    options: [
+      'Langsung menulis kode Python tanpa menganalisis logika yang sudah ada',
+      'Membuat flowchart/pseudocode dari program Blockly-nya, lalu menerjemahkan langkah demi langkah ke sintaks tekstual',
+      'Menghapus semua blok dan mulai dari nol karena konsepnya berbeda',
+      'Hanya menggunakan perintah print() saja di Python'
+    ],
+    answer: 1,
+    pembahasan: 'Transisi dari visual ke tekstual paling efektif dengan menuliskan ulang logika dalam bentuk flowchart/pseudocode terlebih dahulu, lalu memetakan ke sintaks bahasa tekstual.'
+  },
+  {
+    type: 'mcq',
+    q: `Perhatikan flowchart berikut yang belum lengkap:<br>
+    <svg class="flowchart-svg" width="300" height="260" viewBox="0 0 300 260">
+      <rect x="100" y="5" width="100" height="28" rx="14" fill="#BBDEFB" stroke="#1565C0" stroke-width="2"/>
+      <text x="150" y="24" text-anchor="middle" font-size="12">Mulai</text>
+      <line x1="150" y1="33" x2="150" y2="48"/>
+      <rect x="75" y="48" width="150" height="30" rx="4" fill="#C8E6C9" stroke="#2E7D32" stroke-width="2"/>
+      <text x="150" y="68" text-anchor="middle" font-size="11">Input nilai</text>
+      <line x1="150" y1="78" x2="150" y2="95"/>
+      <polygon points="150,95 210,125 150,155 90,125" fill="#FFF9C4" stroke="#F9A825" stroke-width="2"/>
+      <text x="150" y="130" text-anchor="middle" font-size="11">nilai ≥ 75?</text>
+      <line x1="210" y1="125" x2="250" y2="125"/><text x="230" y="118" font-size="10">Ya</text>
+      <line x1="90" y1="125" x2="50" y2="125"/><text x="60" y="118" font-size="10">Tidak</text>
+      <rect x="200" y="160" width="100" height="28" rx="4" fill="#FFCCBC" stroke="#E64A19" stroke-width="2"/>
+      <text x="250" y="179" text-anchor="middle" font-size="11">Lulus</text>
+      <rect x="0" y="160" width="100" height="28" rx="4" fill="#FFCCBC" stroke="#E64A19" stroke-width="2"/>
+      <text x="50" y="179" text-anchor="middle" font-size="11">Tidak Lulus</text>
+      <line x1="250" y1="188" x2="250" y2="210"/><line x1="50" y1="188" x2="50" y2="210"/>
+      <line x1="50" y1="210" x2="250" y2="210"/><line x1="150" y1="210" x2="150" y2="225"/>
+      <rect x="100" y="225" width="100" height="28" rx="14" fill="#BBDEFB" stroke="#1565C0" stroke-width="2"/>
+      <text x="150" y="244" text-anchor="middle" font-size="12">Selesai</text>
+    </svg>
+    <br>Jika flowchart ini akan diubah menjadi modul library yang bisa dipanggil berulang, simbol manakah yang paling tepat diganti menjadi “parameter input”?`,
+    options: [
+      'Simbol terminator “Mulai”',
+      'Simbol proses “Input nilai” diganti menjadi penerimaan parameter',
+      'Simbol keputusan “nilai ≥ 75?”',
+      'Simbol terminator “Selesai”'
+    ],
+    answer: 1,
+    pembahasan: 'Pada modul/library, data masuk melalui parameter. Simbol input diganti menjadi penerimaan parameter agar modul bersifat generik dan reusable.'
+  },
+  {
+    type: 'mcq',
+    q: `Siswa A menulis pseudocode tanpa modularisasi (semua logika digabung). Siswa B memecah logika menjadi beberapa prosedur kecil. Setelah diuji dengan 5 data berbeda, program B jauh lebih mudah diperbaiki ketika ada kesalahan di bagian perhitungan. Manakah alasan ilmiah yang paling tepat?`,
+    options: [
+      'Program B lebih pendek secara keseluruhan',
+      'Modularisasi memudahkan debugging karena kesalahan dapat dilokalisasi pada prosedur tertentu (isolasi error)',
+      'Pseudocode B menggunakan lebih banyak variabel global',
+      'Siswa B menggunakan bahasa pemrograman yang berbeda'
+    ],
+    answer: 1,
+    pembahasan: 'Salah satu manfaat modularisasi adalah isolasi error. Ketika bug ditemukan, programmer cukup memeriksa prosedur yang relevan, bukan seluruh program.'
+  },
+  {
+    type: 'mcq',
+    q: `Perhatikan potongan blok Blockly berikut (digambarkan secara tekstual):<br>
+    <pre style="background:#E8F5E9;padding:10px;border-radius:8px;font-size:13px;">
+[ hitungLuasPersegiPanjang ] ← blok custom
+  parameter: panjang, lebar
+  return: panjang × lebar
+
+Di script utama:
+  set volume to (hitungLuasPersegiPanjang 10 5) × tinggi
+    </pre>
+    Analisis: Blok custom di atas berperan sebagai...`,
+    options: [
+      'Variabel global yang menyimpan nilai tetap',
+      'Library/modul yang mengenkapsulasi logika perhitungan luas agar dapat digunakan ulang',
+      'Struktur perulangan (loop)',
+      'Kondisi percabangan (if-else)'
+    ],
+    answer: 1,
+    pembahasan: 'Blok custom dengan parameter dan return value adalah implementasi library/modul dalam pemrograman visual. Ia mengenkapsulasi logika agar reusable.'
+  },
+  {
+    type: 'mcq',
+    q: `Seorang guru meminta siswa mengevaluasi efektivitas flowchart yang dibuat teman sekelas. Flowchart tersebut memiliki 12 simbol proses berurutan tanpa keputusan atau perulangan, padahal masalahnya membutuhkan pengecekan kondisi berulang. Kesimpulan evaluasi yang tepat adalah...`,
+    options: [
+      'Flowchart sudah efektif karena jumlah simbolnya banyak',
+      'Flowchart kurang efektif karena tidak merepresentasikan logika percabangan/perulangan yang dibutuhkan masalah, sehingga solusi tidak akurat',
+      'Flowchart selalu efektif asal ada simbol mulai dan selesai',
+      'Jumlah simbol tidak berpengaruh terhadap efektivitas'
+    ],
+    answer: 1,
+    pembahasan: 'Efektivitas flowchart diukur dari kesesuaiannya dengan logika masalah. Jika masalah membutuhkan keputusan/perulangan namun flowchart hanya sekuensial, maka flowchart tidak efektif.'
+  },
+  {
+    type: 'multi',
+    q: `Manakah pernyataan berikut yang benar mengenai <strong>modularisasi</strong> dalam pemrograman? (pilih lebih dari satu)`,
+    options: [
+      'Memecah program besar menjadi bagian-bagian kecil yang mandiri',
+      'Membuat kode lebih mudah dibaca, diuji, dan diperbaiki',
+      'Mengharuskan semua variabel menjadi global',
+      'Memungkinkan penggunaan ulang (reusability) kode',
+      'Hanya berlaku untuk pemrograman tekstual, tidak untuk Scratch'
+    ],
+    answer: [0,1,3],
+    pembahasan: 'Modularisasi = dekomposisi program menjadi modul mandiri, meningkatkan readability, testability, dan reusability. Tidak mengharuskan variabel global, dan berlaku juga di pemrograman visual (My Blocks).'
+  },
+  {
+    type: 'multi',
+    q: `Keuntungan menggunakan <strong>library</strong> dalam pemrograman visual (Scratch/Blockly) meliputi... (pilih yang benar)`,
+    options: [
+      'Mengurangi duplikasi kode',
+      'Mempercepat pengembangan program baru',
+      'Membuat program menjadi tidak dapat diubah sama sekali',
+      'Memudahkan kolaborasi karena modul dapat dibagikan',
+      'Menghilangkan kebutuhan testing'
+    ],
+    answer: [0,1,3],
+    pembahasan: 'Library mengurangi duplikasi, mempercepat development, dan mendukung sharing/kolaborasi. Library tidak membuat program “tidak dapat diubah” dan testing tetap diperlukan.'
+  },
+  {
+    type: 'multi',
+    q: `Perhatikan pseudocode berikut:<br>
+    <pre style="background:#F5F5F5;padding:10px;border-radius:8px;font-size:13px;">
+FUNGSI maksimum(a, b)
+  JIKA a > b MAKA
+    KEMBALIKAN a
+  ELSE
+    KEMBALIKAN b
+  AKHIR JIKA
+AKHIR FUNGSI
+    </pre>
+    Manakah pernyataan yang tepat tentang pseudocode di atas? (pilih lebih dari satu)`,
+    options: [
+      'Fungsi ini merupakan contoh modularisasi',
+      'Fungsi menerima dua parameter dan mengembalikan satu nilai',
+      'Fungsi hanya bisa dipanggil satu kali dalam program',
+      'Logika di dalam fungsi dapat diuji secara terpisah',
+      'Pseudocode ini tidak dapat diterjemahkan ke Scratch'
+    ],
+    answer: [0,1,3],
+    pembahasan: 'Fungsi maksimum adalah modul yang menerima parameter, mengembalikan nilai, dan dapat diuji terpisah. Ia dapat dipanggil berkali-kali dan mudah dipetakan ke blok custom Scratch.'
+  },
+  {
+    type: 'multi',
+    q: `Dalam transisi dari pemrograman visual ke tekstual, manakah langkah yang disarankan? (pilih yang benar)`,
+    options: [
+      'Membuat flowchart atau pseudocode dari program visual yang sudah ada',
+      'Mengenali kesamaan struktur: urutan, percabangan, perulangan',
+      'Langsung menyalin blok visual menjadi teks tanpa memahami logika',
+      'Memahami konsep variabel, parameter, dan return value',
+      'Mengabaikan error message karena tidak penting'
+    ],
+    answer: [0,1,3],
+    pembahasan: 'Langkah baik: dokumentasikan logika (flowchart/pseudocode), pahami struktur kontrol yang sama, dan kuasai konsep variabel/parameter. Jangan menyalin buta atau mengabaikan error.'
+  },
+  {
+    type: 'multi',
+    q: `Manakah yang termasuk manfaat <strong>flowchart</strong> dalam merancang solusi? (pilih lebih dari satu)`,
+    options: [
+      'Memvisualisasikan alur logika secara jelas',
+      'Memudahkan deteksi kesalahan alur sebelum coding',
+      'Menggantikan sepenuhnya kebutuhan testing program',
+      'Membantu komunikasi ide antar anggota tim',
+      'Hanya berguna untuk program yang sangat sederhana'
+    ],
+    answer: [0,1,3],
+    pembahasan: 'Flowchart memvisualisasikan alur, membantu deteksi kesalahan dini, dan memfasilitasi komunikasi. Ia tidak menggantikan testing dan berguna untuk program sederhana maupun kompleks.'
+  },
+  {
+    type: 'multi',
+    q: `Perhatikan tabel simbol flowchart:<br>
+    <table class="q-table">
+      <tr><th>Simbol</th><th>Nama</th><th>Fungsi</th></tr>
+      <tr><td>Oval</td><td>Terminator</td><td>Mulai/Selesai</td></tr>
+      <tr><td>Persegi panjang</td><td>Proses</td><td>Operasi/perhitungan</td></tr>
+      <tr><td>Belah ketupat</td><td>Keputusan</td><td>Percabangan kondisi</td></tr>
+      <tr><td>Jajaran genjang</td><td>Input/Output</td><td>Masukan/keluaran data</td></tr>
+    </table>
+    Manakah pernyataan yang benar? (pilih lebih dari satu)`,
+    options: [
+      'Simbol belah ketupat digunakan untuk percabangan if-else',
+      'Simbol oval hanya boleh muncul sekali dalam satu flowchart',
+      'Simbol jajaran genjang dapat merepresentasikan “baca” atau “tulis”',
+      'Simbol proses digunakan untuk perhitungan matematis',
+      'Semua simbol wajib digunakan dalam setiap flowchart'
+    ],
+    answer: [0,2,3],
+    pembahasan: 'Belah ketupat = keputusan, jajaran genjang = I/O, persegi panjang = proses. Oval muncul minimal dua kali (mulai & selesai). Tidak semua simbol wajib ada.'
+  },
+  {
+    type: 'multi',
+    q: `Dalam konteks <strong>library</strong> pada Scratch, manakah yang benar? (pilih lebih dari satu)`,
+    options: [
+      'My Blocks dapat memiliki parameter input',
+      'My Blocks dapat mengembalikan nilai (reporter block)',
+      'Library bawaan Scratch (Motion, Looks, dll) tidak dapat digunakan bersama My Blocks',
+      'My Blocks mendukung konsep modularisasi',
+      'Parameter My Blocks hanya boleh berupa angka'
+    ],
+    answer: [0,1,3],
+    pembahasan: 'My Blocks mendukung parameter (berbagai tipe) dan return value. Library bawaan tetap dapat digunakan bersama. Ini adalah bentuk modularisasi di Scratch.'
+  },
+  {
+    type: 'multi',
+    q: `Siswa diminta mengevaluasi efektivitas pseudocode. Kriteria yang tepat untuk menilai efektivitas pseudocode meliputi... (pilih yang benar)`,
+    options: [
+      'Apakah langkah-langkahnya jelas, berurutan, dan tidak ambigu',
+      'Apakah pseudocode dapat diterjemahkan ke bahasa pemrograman dengan mudah',
+      'Apakah panjang pseudocode selalu lebih dari 50 baris',
+      'Apakah logika solusi sesuai dengan permasalahan yang ingin diselesaikan',
+      'Apakah menggunakan bahasa Inggris wajib'
+    ],
+    answer: [0,1,3],
+    pembahasan: 'Efektivitas pseudocode: kejelasan, kemudahan translasi, dan kesesuaian logika dengan masalah. Panjang tidak menjadi ukuran, dan bahasa bisa Indonesia/Inggris.'
+  },
+  {
+    type: 'multi',
+    q: `Manakah contoh penerapan <strong>dekomposisi</strong> (bagian dari berpikir komputasional) yang tepat saat membuat program? (pilih lebih dari satu)`,
+    options: [
+      'Memecah program kasir menjadi modul: input barang, hitung total, hitung diskon, cetak struk',
+      'Menulis seluruh logika dalam satu prosedur panjang tanpa pemisahan',
+      'Membuat fungsi terpisah untuk validasi input dan perhitungan',
+      'Menggabungkan semua variabel menjadi satu variabel besar',
+      'Memisahkan logika tampilan (UI) dari logika bisnis (perhitungan)'
+    ],
+    answer: [0,2,4],
+    pembahasan: 'Dekomposisi = memecah masalah/program menjadi bagian kecil yang manageable. Contoh baik: modul terpisah untuk input, hitung, validasi, UI vs business logic.'
+  },
+  {
+    type: 'multi',
+    q: `Perhatikan dua pendekatan berikut:<br>
+    <strong>A:</strong> Menulis ulang kode perhitungan luas setiap kali dibutuhkan di berbagai bagian program.<br>
+    <strong>B:</strong> Membuat satu fungsi hitungLuas() lalu memanggilnya di mana saja.<br>
+    Manakah pernyataan yang benar? (pilih lebih dari satu)`,
+    options: [
+      'Pendekatan B menerapkan prinsip modularisasi dan library',
+      'Pendekatan A lebih rawan inkonsistensi jika rumus diubah',
+      'Pendekatan B lebih sulit di-debug',
+      'Pendekatan B mendukung reusability',
+      'Pendekatan A lebih efisien dalam penggunaan memori selalu'
+    ],
+    answer: [0,1,3],
+    pembahasan: 'B = modularisasi + library + reusability. A rawan inkonsistensi (harus ubah di banyak tempat). B justru lebih mudah di-debug karena logika terpusat.'
+  },
+  {
+    type: 'multi',
+    q: `Dalam membandingkan pemrograman visual dan tekstual, manakah yang benar? (pilih lebih dari satu)`,
+    options: [
+      'Keduanya mendukung konsep variabel, percabangan, dan perulangan',
+      'Pemrograman visual lebih cocok sebagai jembatan menuju tekstual',
+      'Pemrograman tekstual tidak dapat menggunakan library',
+      'Pseudocode dapat menjadi jembatan antara keduanya',
+      'Scratch tidak dapat merepresentasikan algoritma yang kompleks'
+    ],
+    answer: [0,1,3],
+    pembahasan: 'Kedua paradigma mendukung struktur dasar yang sama. Visual bagus sebagai stepping-stone. Pseudocode menjembatani. Scratch mampu algoritma kompleks (meski terbatas untuk skala sangat besar).'
+  },
+  {
+    type: 'multi',
+    q: `Manakah praktik terbaik saat merancang solusi dengan flowchart dan pseudocode? (pilih yang benar)`,
+    options: [
+      'Mulai dari gambaran kasar (high-level) lalu detailkan modul demi modul',
+      'Pastikan setiap keputusan memiliki cabang yang jelas (Ya/Tidak)',
+      'Abaikan kasus khusus (edge case) karena jarang terjadi',
+      'Uji logika flowchart/pseudocode dengan data contoh sebelum coding',
+      'Gunakan nama prosedur yang deskriptif agar mudah dipahami'
+    ],
+    answer: [0,1,3,4],
+    pembahasan: 'Praktik baik: top-down design, cabang keputusan lengkap, uji dengan data contoh, dan penamaan deskriptif. Edge case justru penting untuk diantisipasi.'
+  },
+  {
+    type: 'drag',
+    q: `Lengkapi pernyataan berikut dengan menarik kata yang tepat ke dalam kotak kosong.`,
+    sentence: 'Proses memecah program besar menjadi bagian-bagian kecil yang mandiri disebut _____. Bagian-bagian tersebut dapat dikemas menjadi _____ agar dapat digunakan ulang di program lain.',
+    words: ['modularisasi', 'library', 'variabel', 'looping', 'debugging'],
+    answer: ['modularisasi', 'library'],
+    pembahasan: 'Modularisasi = memecah program. Library = kumpulan modul/fungsi yang reusable.'
+  },
+  {
+    type: 'drag',
+    q: `Lengkapi kalimat tentang pseudocode.`,
+    sentence: '_____ adalah representasi semi-formal dari algoritma yang menggunakan bahasa mirip manusia. Ia membantu programmer merancang logika sebelum menulis kode dalam bahasa _____ tertentu.',
+    words: ['Pseudocode', 'pemrograman', 'flowchart', 'variabel', 'compiler'],
+    answer: ['Pseudocode', 'pemrograman'],
+    pembahasan: 'Pseudocode = deskripsi algoritma semi-formal. Setelah logika jelas, baru diterjemahkan ke bahasa pemrograman spesifik.'
+  },
+  {
+    type: 'drag',
+    q: `Lengkapi pernyataan tentang flowchart.`,
+    sentence: 'Flowchart menggunakan simbol standar: _____ untuk mulai/selesai, belah ketupat untuk _____, dan persegi panjang untuk proses.',
+    words: ['oval/terminator', 'keputusan/percabangan', 'input', 'output', 'variabel'],
+    answer: ['oval/terminator', 'keputusan/percabangan'],
+    pembahasan: 'Oval = terminator (mulai/selesai). Belah ketupat = keputusan. Persegi panjang = proses.'
+  },
+  {
+    type: 'drag',
+    q: `Lengkapi tentang Scratch.`,
+    sentence: 'Di Scratch, fitur _____ memungkinkan siswa membuat blok sendiri dengan parameter. Fitur ini merupakan implementasi konsep _____ dalam pemrograman visual.',
+    words: ['My Blocks', 'modularisasi', 'sprite', 'kostum', 'backdrop'],
+    answer: ['My Blocks', 'modularisasi'],
+    pembahasan: 'My Blocks = custom block = bentuk modularisasi di Scratch.'
+  },
+  {
+    type: 'drag',
+    q: `Lengkapi tentang transisi visual ke tekstual.`,
+    sentence: 'Untuk berpindah dari Blockly ke bahasa tekstual, siswa sebaiknya menuliskan ulang logika dalam bentuk _____ atau _____, lalu menerjemahkannya ke sintaks bahasa target.',
+    words: ['flowchart', 'pseudocode', 'gambar', 'suara', 'animasi'],
+    answer: ['flowchart', 'pseudocode'],
+    pembahasan: 'Flowchart dan pseudocode adalah jembatan terbaik dari visual ke tekstual.'
+  },
+  {
+    type: 'drag',
+    q: `Lengkapi manfaat modularisasi.`,
+    sentence: 'Salah satu manfaat utama modularisasi adalah _____ (kode dapat dipakai ulang) dan memudahkan _____ karena kesalahan dapat dilokalisasi pada modul tertentu.',
+    words: ['reusability', 'debugging', 'kompilasi', 'instalasi', 'desain grafis'],
+    answer: ['reusability', 'debugging'],
+    pembahasan: 'Reusability dan kemudahan debugging adalah dua manfaat kunci modularisasi.'
+  },
+  {
+    type: 'drag',
+    q: `Lengkapi tentang evaluasi solusi.`,
+    sentence: 'Saat mengevaluasi efektivitas sebuah _____, kita memeriksa apakah langkah-langkahnya jelas, tidak ambigu, dan sesuai dengan _____ yang ingin diselesaikan.',
+    words: ['pseudocode', 'permasalahan', 'warna', 'font', 'animasi'],
+    answer: ['pseudocode', 'permasalahan'],
+    pembahasan: 'Evaluasi pseudocode: kejelasan + kesesuaian dengan permasalahan.'
+  },
+  {
+    type: 'drag',
+    q: `Lengkapi pernyataan library.`,
+    sentence: 'Library adalah kumpulan _____ atau prosedur siap pakai. Dengan library, programmer tidak perlu menulis ulang logika yang sudah ada, sehingga meningkatkan _____.',
+    words: ['fungsi', 'efisiensi', 'error', 'bug', 'virus'],
+    answer: ['fungsi', 'efisiensi'],
+    pembahasan: 'Library berisi fungsi/prosedur siap pakai → meningkatkan efisiensi pengembangan.'
+  },
+  {
+    type: 'drag',
+    q: `Lengkapi tentang parameter.`,
+    sentence: 'Agar sebuah modul bersifat generik dan dapat digunakan untuk data berbeda, modul tersebut harus menerima _____ sebagai masukan dan biasanya mengembalikan sebuah _____.',
+    words: ['parameter', 'nilai/return', 'sprite', 'kostum', 'backdrop'],
+    answer: ['parameter', 'nilai/return'],
+    pembahasan: 'Parameter = input generik. Return value = keluaran modul.'
+  },
+  {
+    type: 'drag',
+    q: `Lengkapi refleksi akhir.`,
+    sentence: 'Dengan membuat _____ dan _____ terlebih dahulu, siswa dapat memahami dan merancang solusi secara sistematis serta efisien sebelum menulis kode program.',
+    words: ['pseudocode', 'flowchart', 'gambar', 'video', 'musik'],
+    answer: ['pseudocode', 'flowchart'],
+    pembahasan: 'Pseudocode dan flowchart membantu perancangan sistematis sebelum coding.'
+  }
+];
+
+/* ========== STATE ========== */
+let currentQ = 0;
+let userAnswers = new Array(questions.length).fill(null);
+let score = 0;
+let violations = 0;
+let timerInterval = null;
+let timeLeft = 40 * 60;
+let studentName = '';
+let studentClass = '';
+let quizStarted = false;
+let navVisible = false;
+
+/* ========== BUKU MATERI STATE ========== */
+// TOTAL_BUKU_PAGES & BUKU_PAGES loaded from buku_data.js (base64 images)
+let currentBukuPage = 1;
+let pagesRead = new Set([1]);
+
+function getBukuSrc(n) {
+  if (typeof BUKU_PAGES !== 'undefined' && BUKU_PAGES[String(n)]) {
+    return BUKU_PAGES[String(n)];
+  }
+  // fallback relative path
+  return `buku_pages/page-${String(n).padStart(2,'0')}.png`;
+}
+
+/* ========== LOGIN ========== */
+function doLogin() {
+  const nama = document.getElementById('nama').value.trim().toUpperCase();
+  const kelas = document.getElementById('kelas').value;
+  if (!nama) { alert('Nama harus diisi dengan huruf kapital!'); return; }
+  if (!kelas) { alert('Pilih kelas terlebih dahulu!'); return; }
+  if (typeof BUKU_PAGES === 'undefined') {
+    alert('File buku_data.js tidak ditemukan. Pastikan file buku_data.js berada di folder yang sama dengan index.html');
+    return;
+  }
+  document.getElementById('nama').value = nama;
+  studentName = nama;
+  studentClass = kelas;
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('main-header').style.display = 'flex';
+  document.getElementById('buku-nama-label').textContent = studentName;
+  document.getElementById('buku-screen').style.display = 'block';
+  initBukuReader();
+}
+
+/* ========== BUKU READER ========== */
+function initBukuReader() {
+  currentBukuPage = 1;
+  pagesRead = new Set([1]);
+  buildThumbs();
+  showBukuPage(1);
+  updateBukuProgress();
+  updateLanjutBtn();
+}
+
+function buildThumbs() {
+  const strip = document.getElementById('buku-thumbs');
+  strip.innerHTML = '';
+  for (let i = 1; i <= TOTAL_BUKU_PAGES; i++) {
+    const img = document.createElement('img');
+    img.className = 'buku-thumb' + (i === 1 ? ' active read' : '');
+    img.src = getBukuSrc(i);
+    img.alt = `Hal ${i}`;
+    img.title = `Halaman ${i}`;
+    img.onclick = () => goBukuPage(i);
+    strip.appendChild(img);
+  }
+}
+
+function showBukuPage(n) {
+  currentBukuPage = n;
+  pagesRead.add(n);
+  const img = document.getElementById('buku-page-img');
+  img.src = getBukuSrc(n);
+  img.alt = `Halaman ${n} Buku Materi`;
+  img.onerror = function() {
+    this.alt = 'Gagal memuat halaman. Pastikan buku_data.js ada di folder yang sama.';
+    this.style.minHeight = '200px';
+    this.style.background = '#eee';
+  };
+  document.getElementById('buku-page-num').textContent = `Halaman ${n} / ${TOTAL_BUKU_PAGES}`;
+  document.getElementById('btn-buku-prev').disabled = (n <= 1);
+  document.getElementById('btn-buku-next').disabled = (n >= TOTAL_BUKU_PAGES);
+  document.querySelectorAll('.buku-thumb').forEach((el, idx) => {
+    el.classList.toggle('active', idx + 1 === n);
+    if (pagesRead.has(idx + 1)) el.classList.add('read');
+  });
+  updateBukuProgress();
+  updateLanjutBtn();
+}
+
+function bukuPrev() {
+  if (currentBukuPage > 1) showBukuPage(currentBukuPage - 1);
+}
+function bukuNext() {
+  if (currentBukuPage < TOTAL_BUKU_PAGES) showBukuPage(currentBukuPage + 1);
+}
+function goBukuPage(n) {
+  if (n >= 1 && n <= TOTAL_BUKU_PAGES) showBukuPage(n);
+}
+
+function updateBukuProgress() {
+  const count = pagesRead.size;
+  const pct = Math.round((count / TOTAL_BUKU_PAGES) * 100);
+  document.getElementById('buku-progress-text').textContent = `${count} / ${TOTAL_BUKU_PAGES} halaman`;
+  document.getElementById('buku-progress-fill').style.width = pct + '%';
+  // Enable checkbox only when all pages read
+  const cb = document.getElementById('buku-sudah-baca');
+  if (count >= TOTAL_BUKU_PAGES) {
+    cb.disabled = false;
+    document.getElementById('buku-hint').classList.remove('show');
+  } else {
+    cb.disabled = true;
+    cb.checked = false;
+    document.getElementById('buku-hint').classList.add('show');
+  }
+}
+
+function updateLanjutBtn() {
+  const allRead = pagesRead.size >= TOTAL_BUKU_PAGES;
+  const checked = document.getElementById('buku-sudah-baca').checked;
+  const btn = document.getElementById('btn-lanjut-soal');
+  if (allRead && checked) {
+    btn.disabled = false;
+    btn.textContent = '✅ Lanjut Mengerjakan Soal';
+  } else if (allRead) {
+    btn.disabled = true;
+    btn.textContent = '🔒 Centang pernyataan “sudah membaca” di atas';
+  } else {
+    btn.disabled = true;
+    btn.textContent = `🔒 Baca semua halaman dulu (${pagesRead.size}/${TOTAL_BUKU_PAGES})`;
+  }
+}
+
+function lanjutKeSoal() {
+  if (pagesRead.size < TOTAL_BUKU_PAGES) {
+    alert('Anda belum membuka semua halaman buku materi!');
+    return;
+  }
+  if (!document.getElementById('buku-sudah-baca').checked) {
+    alert('Centang pernyataan bahwa Anda sudah membaca buku materi!');
+    return;
+  }
+  document.getElementById('buku-screen').style.display = 'none';
+  document.getElementById('start-modal').classList.add('show');
+}
+
+/* ========== START QUIZ ========== */
+function startQuiz() {
+  document.getElementById('start-modal').classList.remove('show');
+  document.getElementById('quiz-screen').style.display = 'block';
+  document.getElementById('violation-count').style.display = 'inline';
+  document.getElementById('timer').style.display = 'block';
+  quizStarted = true;
+  buildNav();
+  renderQuestion();
+  startTimer();
+  activateSecurity();
+}
+
+/* ========== TIMER ========== */
+function startTimer() {
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      finishQuiz(true);
+    }
+  }, 1000);
+}
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+  const s = (timeLeft % 60).toString().padStart(2, '0');
+  const el = document.getElementById('timer');
+  el.textContent = `${m}:${s}`;
+  el.classList.remove('warning', 'danger');
+  if (timeLeft <= 60) el.classList.add('danger');
+  else if (timeLeft <= 300) el.classList.add('warning');
+}
+
+/* ========== NAV ========== */
+function buildNav() {
+  const grid = document.getElementById('nav-grid');
+  grid.innerHTML = '';
+  questions.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'nav-btn';
+    btn.textContent = i + 1;
+    btn.onclick = () => goToQuestion(i);
+    grid.appendChild(btn);
+  });
+  updateNav();
+}
+function updateNav() {
+  const btns = document.querySelectorAll('.nav-btn');
+  btns.forEach((btn, i) => {
+    btn.classList.remove('answered', 'current');
+    if (userAnswers[i] !== null) btn.classList.add('answered');
+    if (i === currentQ) btn.classList.add('current');
+  });
+}
+function toggleNav() {
+  navVisible = !navVisible;
+  document.getElementById('nav-grid').classList.toggle('hidden', !navVisible);
+  document.getElementById('nav-legend').style.display = navVisible ? 'block' : 'none';
+}
+function goToQuestion(i) {
+  saveCurrentAnswer();
+  currentQ = i;
+  renderQuestion();
+  updateNav();
+}
+
+/* ========== RENDER QUESTION ========== */
+function renderQuestion() {
+  const q = questions[currentQ];
+  const area = document.getElementById('question-area');
+  let typeLabel = q.type === 'mcq' ? 'Pilihan Ganda' : q.type === 'multi' ? 'Pilihan Lebih dari Satu' : 'Isian Tarik (Drag & Drop)';
+  let html = `
+    <div class="q-header">
+      <span class="q-number">Soal ${currentQ + 1} / ${questions.length}</span>
+      <span class="q-type">${typeLabel}</span>
+    </div>
+    <div class="q-text">${q.q}</div>
+  `;
+
+  if (q.type === 'mcq') {
+    html += '<div class="options">';
+    q.options.forEach((opt, i) => {
+      const checked = userAnswers[currentQ] === i ? 'checked' : '';
+      const sel = userAnswers[currentQ] === i ? 'selected' : '';
+      html += `<label class="opt-label ${sel}" onclick="selectMCQ(${i})">
+        <input type="radio" name="mcq" value="${i}" ${checked}> <span>${String.fromCharCode(65+i)}. ${opt}</span>
+      </label>`;
+    });
+    html += '</div>';
+  } else if (q.type === 'multi') {
+    html += '<div class="options">';
+    const ans = userAnswers[currentQ] || [];
+    q.options.forEach((opt, i) => {
+      const checked = ans.includes(i) ? 'checked' : '';
+      const sel = ans.includes(i) ? 'selected' : '';
+      html += `<label class="opt-label ${sel}" onclick="toggleMulti(${i})">
+        <input type="checkbox" value="${i}" ${checked}> <span>${String.fromCharCode(65+i)}. ${opt}</span>
+      </label>`;
+    });
+    html += '</div>';
+  } else if (q.type === 'drag') {
+    let sent = q.sentence;
+    q.answer.forEach((_, idx) => {
+      const id = `blank-${currentQ}-${idx}`;
+      sent = sent.replace('_____', `<span class="blank-slot" id="${id}" data-idx="${idx}" ondragover="allowDrop(event)" ondrop="dropWord(event)" onclick="clearBlank(this)">&nbsp;</span>`);
+    });
+    html += `<div class="drag-area"><div class="blanks-sentence">${sent}</div>`;
+    html += '<div class="word-bank" id="word-bank">';
+    const shuffled = [...q.words].sort(() => Math.random() - 0.5);
+    shuffled.forEach((w) => {
+      html += `<span class="drag-word" draggable="true" data-word="${w}" ondragstart="dragStart(event)">${w}</span>`;
+    });
+    html += '</div></div>';
+  }
+
+  html += '<div class="nav-btns">';
+  if (currentQ > 0) html += `<button class="btn-nav btn-prev" onclick="prevQ()">← Sebelumnya</button>`;
+  if (currentQ < questions.length - 1) html += `<button class="btn-nav btn-next" onclick="nextQ()">Berikutnya →</button>`;
+  else html += `<button class="btn-nav btn-submit" onclick="confirmSubmit()">Kumpulkan Jawaban</button>`;
+  html += '</div>';
+
+  area.innerHTML = html;
+
+  if (q.type === 'drag' && userAnswers[currentQ]) {
+    const saved = userAnswers[currentQ];
+    saved.forEach((w, idx) => {
+      if (w) {
+        const slot = document.getElementById(`blank-${currentQ}-${idx}`);
+        if (slot) {
+          slot.textContent = w;
+          slot.classList.add('filled');
+          document.querySelectorAll('.drag-word').forEach(el => {
+            if (el.dataset.word === w) el.classList.add('used');
+          });
+        }
+      }
+    });
+  }
+  updateNav();
+}
+
+function selectMCQ(i) {
+  userAnswers[currentQ] = i;
+  document.querySelectorAll('.opt-label').forEach((el, idx) => {
+    el.classList.toggle('selected', idx === i);
+    el.querySelector('input').checked = idx === i;
+  });
+  updateNav();
+}
+function toggleMulti(i) {
+  if (!userAnswers[currentQ]) userAnswers[currentQ] = [];
+  const arr = userAnswers[currentQ];
+  const pos = arr.indexOf(i);
+  if (pos >= 0) arr.splice(pos, 1);
+  else arr.push(i);
+  userAnswers[currentQ] = arr;
+  document.querySelectorAll('.opt-label').forEach((el, idx) => {
+    const checked = arr.includes(idx);
+    el.classList.toggle('selected', checked);
+    el.querySelector('input').checked = checked;
+  });
+  updateNav();
+}
+
+/* DRAG & DROP */
+let draggedWord = null;
+function dragStart(e) {
+  draggedWord = e.target.dataset.word;
+  e.dataTransfer.setData('text/plain', draggedWord);
+}
+function allowDrop(e) { e.preventDefault(); }
+function dropWord(e) {
+  e.preventDefault();
+  const word = e.dataTransfer.getData('text/plain') || draggedWord;
+  const slot = e.target.closest('.blank-slot');
+  if (!slot || !word) return;
+  if (slot.classList.contains('filled') && slot.textContent.trim()) {
+    const old = slot.textContent.trim();
+    document.querySelectorAll('.drag-word').forEach(el => {
+      if (el.dataset.word === old) el.classList.remove('used');
+    });
+  }
+  slot.textContent = word;
+  slot.classList.add('filled');
+  document.querySelectorAll('.drag-word').forEach(el => {
+    if (el.dataset.word === word) el.classList.add('used');
+  });
+  saveDragAnswer();
+}
+function clearBlank(slot) {
+  if (!slot.classList.contains('filled')) return;
+  const word = slot.textContent.trim();
+  slot.textContent = '\u00A0';
+  slot.classList.remove('filled');
+  document.querySelectorAll('.drag-word').forEach(el => {
+    if (el.dataset.word === word) el.classList.remove('used');
+  });
+  saveDragAnswer();
+}
+function saveDragAnswer() {
+  const q = questions[currentQ];
+  const ans = [];
+  q.answer.forEach((_, idx) => {
+    const slot = document.getElementById(`blank-${currentQ}-${idx}`);
+    ans.push(slot && slot.classList.contains('filled') ? slot.textContent.trim() : null);
+  });
+  userAnswers[currentQ] = ans.some(a => a) ? ans : null;
+  updateNav();
+}
+
+function saveCurrentAnswer() {}
+
+function prevQ() {
+  saveCurrentAnswer();
+  if (currentQ > 0) { currentQ--; renderQuestion(); }
+}
+function nextQ() {
+  saveCurrentAnswer();
+  if (currentQ < questions.length - 1) { currentQ++; renderQuestion(); }
+}
+
+/* ========== SUBMIT & SCORE ========== */
+function confirmSubmit() {
+  const unanswered = userAnswers.filter(a => a === null).length;
+  if (unanswered > 0) {
+    if (!confirm(`Masih ada ${unanswered} soal belum dijawab. Yakin kumpulkan?`)) return;
+  }
+  finishQuiz(false);
+}
+
+function finishQuiz(timeUp) {
+  clearInterval(timerInterval);
+  quizStarted = false;
+  let correct = 0;
+  questions.forEach((q, i) => {
+    const ua = userAnswers[i];
+    if (ua === null) return;
+    if (q.type === 'mcq') {
+      if (ua === q.answer) correct++;
+    } else if (q.type === 'multi') {
+      const sortedUA = [...ua].sort((a,b)=>a-b);
+      const sortedAns = [...q.answer].sort((a,b)=>a-b);
+      if (JSON.stringify(sortedUA) === JSON.stringify(sortedAns)) correct++;
+    } else if (q.type === 'drag') {
+      if (ua && ua.length === q.answer.length && ua.every((w, idx) => w === q.answer[idx])) correct++;
+    }
+  });
+  const penalty = Math.floor(violations / 3);
+  score = Math.max(0, correct - penalty);
+  const maxScore = questions.length;
+  const pct = Math.round((score / maxScore) * 100);
+
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('main-header').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+
+  let msg = timeUp ? 'Waktu habis! ' : '';
+  msg += `Terimakasih telah mengerjakan tugas Anda, <strong>${studentName}</strong> (Kelas ${studentClass}).`;
+  if (penalty > 0) msg += `<br><span style="color:#C62828;">Skor dikurangi ${penalty} karena ${violations} pelanggaran.</span>`;
+
+  let pbHtml = '';
+  questions.forEach((q, i) => {
+    const ua = userAnswers[i];
+    let status = '';
+    let userAnsText = '-';
+    let correctText = '';
+    if (q.type === 'mcq') {
+      correctText = q.options[q.answer];
+      if (ua !== null) {
+        userAnsText = q.options[ua];
+        status = ua === q.answer ? '<span class="benar">✓ Benar</span>' : '<span class="salah">✗ Salah</span>';
+      } else status = '<span class="salah">Tidak dijawab</span>';
+    } else if (q.type === 'multi') {
+      correctText = q.answer.map(i => q.options[i]).join('; ');
+      if (ua && ua.length) {
+        userAnsText = ua.map(i => q.options[i]).join('; ');
+        const ok = JSON.stringify([...ua].sort()) === JSON.stringify([...q.answer].sort());
+        status = ok ? '<span class="benar">✓ Benar</span>' : '<span class="salah">✗ Salah</span>';
+      } else status = '<span class="salah">Tidak dijawab</span>';
+    } else {
+      correctText = q.answer.join(' | ');
+      if (ua) {
+        userAnsText = ua.join(' | ');
+        const ok = ua.every((w, idx) => w === q.answer[idx]);
+        status = ok ? '<span class="benar">✓ Benar</span>' : '<span class="salah">✗ Salah</span>';
+      } else status = '<span class="salah">Tidak dijawab</span>';
+    }
+    pbHtml += `<div class="pb-item">
+      <strong>Soal ${i+1}</strong> ${status}<br>
+      <em>Jawaban Anda:</em> ${userAnsText}<br>
+      <em>Kunci:</em> ${correctText}<br>
+      <em>Pembahasan:</em> ${q.pembahasan}
+    </div>`;
+  });
+
+  document.getElementById('result-content').innerHTML = `
+    <div class="score-circle" style="--pct:${pct * 3.6}deg">
+      <div class="score-val">${score}</div>
+      <div class="score-label">dari ${maxScore}</div>
+    </div>
+    <div class="result-msg">${msg}</div>
+    <p style="font-size:14px;color:#555;">Nilai: <strong>${pct}%</strong> | Pelanggaran: ${violations}</p>
+    <button class="btn-refresh" onclick="location.reload()">🔄 Kerjakan Ulang</button>
+    <button class="btn-refresh" style="background:#C62828;" onclick="confirmExit()">Keluar</button>
+    <div class="pembahasan">
+      <h3>📖 Pembahasan Semua Soal</h3>
+      ${pbHtml}
+    </div>
+  `;
+}
+
+/* ========== SECURITY ========== */
+function activateSecurity() {
+  document.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    addViolation('Klik kanan diblokir');
+  });
+  document.addEventListener('copy', e => { e.preventDefault(); addViolation('Copy diblokir'); });
+  document.addEventListener('cut', e => { e.preventDefault(); addViolation('Cut diblokir'); });
+  document.addEventListener('paste', e => { e.preventDefault(); addViolation('Paste diblokir'); });
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && ['c','x','v','a','s','p','u'].includes(e.key.toLowerCase())) {
+      e.preventDefault();
+      addViolation('Shortcut keyboard diblokir');
+    }
+    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i')) {
+      e.preventDefault();
+      addViolation('DevTools diblokir');
+    }
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && quizStarted) addViolation('Tab/Window disembunyikan');
+  });
+  window.addEventListener('blur', () => {
+    if (quizStarted) addViolation('Fokus jendela hilang (kemungkinan multi-window)');
+  });
+  if (window.screen && window.screen.isExtended !== undefined) {
+    if (window.screen.isExtended) addViolation('Terdeteksi multi-monitor');
+  }
+  let lastW = window.innerWidth, lastH = window.innerHeight;
+  window.addEventListener('resize', () => {
+    if (!quizStarted) return;
+    const dw = Math.abs(window.innerWidth - lastW);
+    const dh = Math.abs(window.innerHeight - lastH);
+    if (dw > 300 || dh > 300) addViolation('Perubahan ukuran jendela ekstrem (kemungkinan floating/PiP)');
+    lastW = window.innerWidth; lastH = window.innerHeight;
+  });
+}
+
+function addViolation(reason) {
+  if (!quizStarted) return;
+  violations++;
+  document.getElementById('violation-count').textContent = `Pelanggaran: ${violations}`;
+  document.getElementById('warn-modal').classList.add('show');
+  console.log('[PELANGGARAN]', reason, 'Total:', violations);
+}
+function closeWarn() {
+  document.getElementById('warn-modal').classList.remove('show');
+}
+
+function confirmExit() {
+  document.getElementById('exit-modal').classList.add('show');
+}
+function closeExit() {
+  document.getElementById('exit-modal').classList.remove('show');
+}
+function exitQuiz() {
+  location.reload();
+}
+
+window.addEventListener('beforeunload', e => {
+  if (quizStarted) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+</script>
+</body>
+</html>
